@@ -1,0 +1,52 @@
+create database jogodavelha default character set utf8;
+
+
+use jogodavelha;
+
+create table jdv_usuarios (
+cd_usuario_id int auto_increment primary key, 
+de_usuario varchar(250) default '', 
+de_sexo enum('M', 'F') default 'M', 
+dt_nasc datetime default null, 
+de_login varchar(250) default '', 
+de_senha_acesso varchar(8) default '', 
+dt_criacao datetime default null, 
+dt_alteracao datetime default null, 
+versao int not null default 0 
+) engine = innoDB default charset = utf8;
+
+
+insert into jdv_usuarios values
+(
+1, 
+'Usuário Zero', 
+'M', 
+'2001-01-01', 
+'usuario.zero', 
+'zero000', 
+curdate(), 
+current_date(), 
+1
+); 
+
+create table jdv_partidas (
+cd_partida_id int auto_increment primary key, 
+cd_usuario_id int not null, 
+dt_partida datetime not null, 
+de_resultado enum('cpu', 'usr', 'draw') default 'draw', 
+versao int not null default 0
+) engine = innoDB default charset = utf8;
+
+
+insert into jdv_partidas values
+(
+1, 
+1, 
+curdate(), 
+'draw', 
+1
+); 
+
+alter table jdv_partidas 
+add constraint jdv_partidas_jdv_usuarios 
+foreign key (cd_usuario_id) references jdv_usuarios(cd_usuario_id); 
